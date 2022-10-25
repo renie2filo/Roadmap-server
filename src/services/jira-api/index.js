@@ -1,6 +1,11 @@
 const router = require('express').Router();
 const axios = require('axios');
 
+//* UTILITIES
+const {
+    getIssueDataFromArray
+} = require('./utilities.js')
+
 //* JIRA ENDPOINTS
 const endpoints = {
     "issue": "/issue",
@@ -59,9 +64,16 @@ router.post('/get-filter', async (req, res, next) => {
 
         const result = await response.data
 
+        const issues_data = getIssueDataFromArray(result["issues"])
+
+        const issues = {
+            "total": result.issues.length,
+            "issues_data": issues_data
+        }
+
         //? console.log("/jira-api/index.js line 51", result)
 
-        res.send(result)
+        res.send(issues)
 
     } catch (error) {
         console.log(error)
