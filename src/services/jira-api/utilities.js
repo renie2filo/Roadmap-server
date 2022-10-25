@@ -1,3 +1,42 @@
+const postJiraAdditionalBody = (startAt) => {
+    return {
+        "maxResults": 100,
+        "startAt": startAt !== undefined && !startAt ? startAt : 0,
+        "fields": [
+            "key",
+            "issuetype",
+            "priority",
+            "assignee",
+            "status",
+            "creator",
+            "progress",
+            "updated"
+        ]
+    }
+}
+
+const sequentialFetch = async (total, cb) => {
+
+    if (total > 100) {
+        let times = parseInt(total / 100);
+        const reminder = total % times;
+
+        reminder > 0 ? times += 1 : times
+
+        let result = []
+
+        for (let i = 0; i < times; i++) {
+            const startAt = i * 100;
+            const issues = await cb(startAt)
+
+            result = result.concat(issues)
+        }
+
+        return result
+    }
+
+}
+
 const getIssueData = (issue) => {
     const {
         key,
@@ -44,5 +83,7 @@ const getIssueDataFromArray = (array_issues) => {
 
 module.exports = {
     getIssueData,
-    getIssueDataFromArray
+    getIssueDataFromArray,
+    postJiraAdditionalBody,
+    sequentialFetch
 }

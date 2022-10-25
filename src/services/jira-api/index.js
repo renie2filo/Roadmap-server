@@ -3,7 +3,9 @@ const axios = require('axios');
 
 //* UTILITIES
 const {
-    getIssueDataFromArray
+    getIssueDataFromArray,
+    postJiraAdditionalBody,
+    sequentialFetch
 } = require('./utilities.js')
 
 //* JIRA ENDPOINTS
@@ -56,35 +58,45 @@ router.post('/get-filter', async (req, res, next) => {
             body
         } = req
 
-        //* FETCH TO GET TOTAL ISSUES
-        const response_basic = await axios.post(`${process.env.JIRA_API_URL}${jql}`, body, {
-            ...basicAuth
-        });
+        //* FUNCTION TO POST JIRA
+        const handlerPostJira = async (startAt) => {
+            const response = await axios.post(`${process.env.JIRA_API_URL}${jql}`, {
+                ...body,
+                ...postJiraAdditionalBody(startAt)
+            }, {
+                ...basicAuth
+            });
 
-        //? console.log("/jira-api/index.js line 47", response)
+            const result = await response.data
 
-        const result_basic = await response_basic.data
+            return result
 
-        //* FETCH TO GET ALL ISSUES
-        const response_all = await axios.post(`${process.env.JIRA_API_URL}${jql}`, {
-            ...body,
-            "maxResults": 127
-        }, {
-            ...basicAuth
-        })
+        }
 
-        const result_all = await response_all.data
+        //* FIRST FETCH
+        const {
+            total,
+            issues
+        } = await handlerPostJira(0)
 
-        const issues_data = getIssueDataFromArray(result_all["issues"])
+        let issues_data = []
 
-        const issues = {
-            "total": result_all.issues.length,
-            "issues_data": issues_data
+        if (total > 100) {
+            issues_data = await sequentialFetch(total, async (startAt) => {
+                const result = await handlerPostJira(startAt)
+                return getIssueDataFromArray(result["issues"])
+            })
+        } else issues_data = [...getIssueDataFromArray(issues)]
+
+        const final_result = {
+            "total": total,
+            "issues_data": issues_data,
+            "total_fetched": issues_data.length
         }
 
         //? console.log("/jira-api/index.js line 51", result)
 
-        res.send(issues)
+        res.send(final_result)
 
     } catch (error) {
         console.log(error)
