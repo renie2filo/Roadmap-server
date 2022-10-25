@@ -2,7 +2,6 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const listEndpoints = require("express-list-endpoints")
-const Pusher = require('pusher');
 const axios = require('axios');
 
 const {
@@ -37,22 +36,6 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 
-// const pusher = new Pusher({
-//     "appId": process.env.PUSHER_APP_ID,
-//     "key": process.env.PUSHER_KEY,
-//     "secret": process.env.PUSHER_SECRET,
-//     "cluster": process.env.PUSHER_CLUSTER,
-//     "encrypted": true
-// })
-
-// app.set('PORT', process.env.SERVER_PORT_OFFLINE || 5001);
-
-// app.post('/message', (req, res) => {
-//     const payload = req.body;
-//     pusher.trigger('chat', 'message', payload);
-//     res.send(payload)
-// });
-
 app.use('/', main_router)
 
 //! ERRORS
@@ -61,9 +44,6 @@ app.use(unAuthorized)
 app.use(forbidden)
 app.use(badRequest)
 app.use(generalError)
-
-// app.listen(app.get('PORT'), () =>
-//     console.log('Listening at ' + app.get('PORT')))
 
 console.log(listEndpoints(app))
 
