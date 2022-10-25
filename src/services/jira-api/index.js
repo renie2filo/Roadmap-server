@@ -34,7 +34,7 @@ router.get('/:issue_id', async (req, res, next) => {
             issue_id
         } = req.params
 
-        const response = await axios.get(`${process.env.JIRA_API_URL}${issue}/${issue_id}?fields=key,created,status,assignee,summary,issuetype,priority,creator,progress,updated,duedate`, {
+        const response = await axios.get(`${process.env.JIRA_API_URL}${issue}/${issue_id}?fields=key,created,status,assignee,summary,issuetype,priority,creator,progress,updated,duedate,resolutiondate`, {
             ...basicAuth
         })
 
