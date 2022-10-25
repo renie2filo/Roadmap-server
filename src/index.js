@@ -1,13 +1,35 @@
-const Pusher = require('pusher');
 const express = require('express');
-const bodyParser = require('body-parser');
 const cors = require('cors');
+const bodyParser = require('body-parser');
+const listEndpoints = require("express-list-endpoints")
+const Pusher = require('pusher');
 const axios = require('axios');
+
+const {
+    notFound,
+    unAuthorized,
+    forbidden,
+    badRequest,
+    generalError
+} = require('./utilities/errors/index.js')
+
+const main_router = require('./services/index.js')
+
 require('dotenv').config();
 
 
 const app = express();
 const PORT = process.env.PORT || 5001
+// const whiteList = process.env.NODE_ENV === 'production' ? [process.env.PROD_URL, process.env.DEV_URL] : [process.env.DEV_URL]
+// const corsOptions = {
+//     origin: function (origin, callback) {
+//         if (whiteList.indexOf(origin) !== -1 || !origin) {
+//             callback(null, true)
+//         } else {
+//             callback(new Error("CORS ISSUES : Invalid origin - Check origins list"))
+//         }
+//     }
+// }
 
 app.use(cors());
 app.use(bodyParser.urlencoded({
@@ -31,27 +53,19 @@ app.use(bodyParser.json());
 //     res.send(payload)
 // });
 
-app.get('/jira-api', async (req, res) => {
+app.use('/', main_router)
 
-    try {
-        const response = await axios.get('https://filocode.atlassian.net/rest/api/3/issue/FZ-419', {
-            auth: {
-                username: process.env.JIRA_API_USERNAME,
-                password: process.env.JIRA_API_TOKEN
-            }
-        })
-        const result = await response.data
-        console.log(result)
-        res.send(result)
-
-    } catch (error) {
-        console.log(error)
-    }
-
-})
+//! ERRORS
+app.use(notFound)
+app.use(unAuthorized)
+app.use(forbidden)
+app.use(badRequest)
+app.use(generalError)
 
 // app.listen(app.get('PORT'), () =>
 //     console.log('Listening at ' + app.get('PORT')))
+
+console.log(listEndpoints(app))
 
 app.listen(PORT, () => {
     console.log('Listening at http://localhost:' + PORT)
