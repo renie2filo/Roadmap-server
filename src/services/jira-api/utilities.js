@@ -14,7 +14,8 @@ const postJiraAdditionalBody = (startAt) => {
             "updated",
             "created",
             "duedate",
-            "resolutiondate"
+            "resolutiondate",
+            "customfield_10017"
         ]
     }
 }
@@ -55,7 +56,8 @@ const getIssueData = (issue) => {
         updated,
         created,
         duedate,
-        resolutiondate
+        resolutiondate,
+        customfield_10017
     } = fields
     return {
         key,
@@ -80,7 +82,8 @@ const getIssueData = (issue) => {
             "progress": progress["progress"] === 0 ? 0 : progress["progress"] / 3600,
             "total": progress["total"] === 0 ? 0 : progress["total"] / 3600,
             "percent": progress["percent"] === 0 ? 0 : progress["percent"] * 100 / progress["progress"]
-        }
+        },
+        "label_color": customfield_10017 ? customfield_10017 : null
     }
 }
 
