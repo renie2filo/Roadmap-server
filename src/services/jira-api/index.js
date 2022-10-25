@@ -78,7 +78,7 @@ router.post('/get-filter', async (req, res, next) => {
         const issues_data = getIssueDataFromArray(result_all["issues"])
 
         const issues = {
-            "total": result.issues.length,
+            "total": result_all.issues.length,
             "issues_data": issues_data
         }
 
