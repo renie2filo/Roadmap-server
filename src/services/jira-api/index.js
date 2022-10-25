@@ -68,7 +68,7 @@ router.post('/get-filter', async (req, res, next) => {
         //* FETCH TO GET ALL ISSUES
         const response_all = await axios.post(`${process.env.JIRA_API_URL}${jql}`, {
             ...body,
-            "maxResults": result_basic["total"]
+            "maxResults": 127
         }, {
             ...basicAuth
         })
