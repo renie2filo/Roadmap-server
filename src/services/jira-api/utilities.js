@@ -41,16 +41,19 @@ const getIssueData = (issue) => {
         fields
     } = issue
     const {
+        summary,
         issuetype,
         priority,
         assignee,
         status,
         creator,
         progress,
-        updated
+        updated,
+        created
     } = fields
     return {
         key,
+        "summary": summary,
         "url": `${process.env.JIRA_FILO_URL}/browse/${key}`,
         "issue_type": issuetype["name"],
         "priority": priority["name"],
@@ -63,6 +66,7 @@ const getIssueData = (issue) => {
             "name": creator["displayName"],
             "avatar": creator["avatarUrls"]["32x32"]
         } : null,
+        "created_at": created.substring(0, 16),
         "last_update": updated.substring(0, 16),
         "progress": {
             "progress": progress["progress"] === 0 ? 0 : progress["progress"] / 3600,
