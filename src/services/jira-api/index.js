@@ -42,11 +42,11 @@ router.get('/:issue_id', async (req, res, next) => {
 
         const result = await response.data
 
-        const issue = getIssueData(result)
+        const issue_result = getIssueData(result)
 
         //? console.log("/jira-api/index.js line 30", result)
 
-        res.send(issue)
+        res.send(issue_result)
 
     } catch (error) {
         console.log(error);
