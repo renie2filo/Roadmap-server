@@ -18,7 +18,7 @@ const postJiraAdditionalBody = (startAt) => {
 const sequentialFetch = async (total, cb) => {
 
     let times = parseInt(total / 100);
-    const reminder = total % times;
+    const reminder = total % 100;
 
     reminder > 0 ? times += 1 : times
 
