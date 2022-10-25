@@ -39,7 +39,8 @@ app.get('/jira-api', async (req, res) => {
             password: "dnBr95az278MzGxIOc8j7D7A"
         }
     })
-    res.send(await response.json())
+    console.log(response)
+    res.send(await response.data)
 
 })
 
