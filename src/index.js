@@ -19,18 +19,18 @@ require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 5001
-// const whiteList = process.env.NODE_ENV === 'production' ? [process.env.PROD_URL, process.env.DEV_URL] : [process.env.DEV_URL]
-// const corsOptions = {
-//     origin: function (origin, callback) {
-//         if (whiteList.indexOf(origin) !== -1 || !origin) {
-//             callback(null, true)
-//         } else {
-//             callback(new Error("CORS ISSUES : Invalid origin - Check origins list"))
-//         }
-//     }
-// }
+const whiteList = process.env.NODE_ENV === 'production' ? [process.env.PROD_URL, process.env.DEV_URL] : [process.env.DEV_URL]
+const corsOptions = {
+    origin: function (origin, callback) {
+        if (whiteList.indexOf(origin) !== -1 || !origin) {
+            callback(null, true)
+        } else {
+            callback(new Error("CORS ISSUES : Invalid origin - Check origins list"))
+        }
+    }
+}
 
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(bodyParser.urlencoded({
     extended: true
 }));
