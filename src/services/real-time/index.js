@@ -1,5 +1,5 @@
 const Pusher = require('pusher');
-const router = require('router').Router();
+const router = require('express').Router();
 
 const pusher = new Pusher({
     "appId": process.env.PUSHER_APP_ID,
