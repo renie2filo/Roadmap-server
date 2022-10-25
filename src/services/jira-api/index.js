@@ -56,15 +56,26 @@ router.post('/get-filter', async (req, res, next) => {
             body
         } = req
 
-        const response = await axios.post(`${process.env.JIRA_API_URL}${jql}`, body, {
+        //* FETCH TO GET TOTAL ISSUES
+        const response_basic = await axios.post(`${process.env.JIRA_API_URL}${jql}`, body, {
             ...basicAuth
         });
 
         //? console.log("/jira-api/index.js line 47", response)
 
-        const result = await response.data
+        const result_basic = await response_basic.data
 
-        const issues_data = getIssueDataFromArray(result["issues"])
+        //* FETCH TO GET ALL ISSUES
+        const response_all = await axios.post(`${process.env.JIRA_API_URL}${jql}`, {
+            ...body,
+            "maxResults": result_basic["total"]
+        }, {
+            ...basicAuth
+        })
+
+        const result_all = await response_all.data
+
+        const issues_data = getIssueDataFromArray(result_all["issues"])
 
         const issues = {
             "total": result.issues.length,
