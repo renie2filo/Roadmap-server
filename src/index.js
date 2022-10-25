@@ -11,7 +11,7 @@ const PORT = process.env.SERVER_PORT_OFFLINE || 5001
 
 app.use(cors());
 app.use(bodyParser.urlencoded({
-    extended: false
+    extended: true
 }));
 app.use(bodyParser.json());
 
