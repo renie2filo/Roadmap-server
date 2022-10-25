@@ -11,7 +11,7 @@ const {
     forbidden,
     badRequest,
     generalError
-} = require('./utilities/errors/index.js')
+} = require('./errors/index.js')
 
 const main_router = require('./services/index.js')
 
