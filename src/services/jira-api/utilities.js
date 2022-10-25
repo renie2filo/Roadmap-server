@@ -1,7 +1,7 @@
 const postJiraAdditionalBody = (startAt) => {
     return {
         "maxResults": 100,
-        "startAt": startAt !== undefined && !startAt ? startAt : 0,
+        "startAt": startAt > 0 ? startAt : 0,
         "fields": [
             "key",
             "issuetype",
