@@ -33,7 +33,7 @@ router.get('/:issue_id', async (req, res, next) => {
             issue_id
         } = req.params
 
-        const response = await axios.get(`${process.env.JIRA_API_URL}${issue}/${issue_id}`, {
+        const response = await axios.get(`${process.env.JIRA_API_URL}${issue}/${issue_id}?fields=key,created,status,assignee`, {
             ...basicAuth
         })
 
@@ -97,7 +97,6 @@ router.post('/get-filter', async (req, res, next) => {
         //? console.log("/jira-api/index.js line 51", result)
 
         res.send(final_result)
-        // res.send(issues)
 
     } catch (error) {
         console.log(error)
