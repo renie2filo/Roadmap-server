@@ -84,7 +84,6 @@ router.post('/get-filter', async (req, res, next) => {
         if (total > 100) {
             issues_data = await sequentialFetch(total, async (startAt) => {
                 const result = await handlerPostJira(startAt)
-                console.log(result)
                 return getIssueDataFromArray(result["issues"])
             })
         } else issues_data = [...getIssueDataFromArray(issues)]
@@ -98,6 +97,7 @@ router.post('/get-filter', async (req, res, next) => {
         //? console.log("/jira-api/index.js line 51", result)
 
         res.send(final_result)
+        // res.send(issues)
 
     } catch (error) {
         console.log(error)
