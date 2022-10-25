@@ -33,14 +33,20 @@ app.use(bodyParser.json());
 
 app.get('/jira-api', async (req, res) => {
 
-    const response = await axios.get('https://filocode.atlassian.net/rest/api/3/issue/FZ-419', {
-        auth: {
-            username: "renie@filotrack.com",
-            password: "dnBr95az278MzGxIOc8j7D7A"
-        }
-    })
-    console.log(response)
-    res.send(await response.data)
+    try {
+        const response = await axios.get('https://filocode.atlassian.net/rest/api/3/issue/FZ-419', {
+            auth: {
+                username: process.env.JIRA_API_USERNAME,
+                password: process.env.JIRA_API_TOKEN
+            }
+        })
+        const result = await response.data
+        console.log(result)
+        res.send(result)
+
+    } catch (error) {
+        console.log(error)
+    }
 
 })
 
