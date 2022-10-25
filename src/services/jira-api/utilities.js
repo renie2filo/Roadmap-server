@@ -4,13 +4,16 @@ const postJiraAdditionalBody = (startAt) => {
         "startAt": startAt > 0 ? startAt : 0,
         "fields": [
             "key",
+            "summary",
             "issuetype",
             "priority",
             "assignee",
             "status",
             "creator",
             "progress",
-            "updated"
+            "updated",
+            "created",
+            "duedate"
         ]
     }
 }
@@ -49,7 +52,8 @@ const getIssueData = (issue) => {
         creator,
         progress,
         updated,
-        created
+        created,
+        duedate
     } = fields
     return {
         key,
@@ -68,6 +72,7 @@ const getIssueData = (issue) => {
         } : null,
         "created_at": created.substring(0, 16),
         "last_update": updated.substring(0, 16),
+        "duedate": duedate ? duedate : null,
         "progress": {
             "progress": progress["progress"] === 0 ? 0 : progress["progress"] / 3600,
             "total": progress["total"] === 0 ? 0 : progress["total"] / 3600,
