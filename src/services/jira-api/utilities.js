@@ -54,15 +54,15 @@ const getIssueData = (issue) => {
         "url": `${process.env.JIRA_FILO_URL}/browse/${key}`,
         "issue_type": issuetype["name"],
         "priority": priority["name"],
-        "assignee": {
+        "assignee": !assignee ? {
             "name": assignee["displayName"],
             "avatar": assignee["avatarUrls"]["32x32"]
-        },
+        } : null,
         "status": status["name"],
-        "creator": {
+        "creator": !creator ? {
             "name": creator["displayName"],
             "avatar": creator["avatarUrls"]["32x32"]
-        },
+        } : null,
         "last_update": updated.substring(0, 16),
         "progress": {
             "progress": progress["progress"] === 0 ? 0 : progress["progress"] / 3600,
