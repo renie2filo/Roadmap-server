@@ -3,6 +3,7 @@ const axios = require('axios');
 
 //* UTILITIES
 const {
+    getIssueData,
     getIssueDataFromArray,
     postJiraAdditionalBody,
     sequentialFetch
@@ -41,9 +42,11 @@ router.get('/:issue_id', async (req, res, next) => {
 
         const result = await response.data
 
+        const issue = getIssueData(result)
+
         //? console.log("/jira-api/index.js line 30", result)
 
-        res.send(result)
+        res.send(issue)
 
     } catch (error) {
         console.log(error);
