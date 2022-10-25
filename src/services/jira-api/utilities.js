@@ -17,23 +17,21 @@ const postJiraAdditionalBody = (startAt) => {
 
 const sequentialFetch = async (total, cb) => {
 
-    if (total > 100) {
-        let times = parseInt(total / 100);
-        const reminder = total % times;
+    let times = parseInt(total / 100);
+    const reminder = total % times;
 
-        reminder > 0 ? times += 1 : times
+    reminder > 0 ? times += 1 : times
 
-        let result = []
+    let result = []
 
-        for (let i = 0; i < times; i++) {
-            const startAt = i * 100;
-            const issues = await cb(startAt)
+    for (let i = 0; i < times; i++) {
+        const startAt = i * 100;
+        const issues = await cb(startAt)
 
-            result = result.concat(issues)
-        }
-
-        return result
+        result = result.concat(issues)
     }
+
+    return result
 
 }
 
