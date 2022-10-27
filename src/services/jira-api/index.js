@@ -29,7 +29,7 @@ const basicAuth = {
 }
 
 //* SIMULATE JIRA API
-router.get('/?query', async (req, res, next) => {
+router.get('/', async (req, res, next) => {
     try {
 
         const {
