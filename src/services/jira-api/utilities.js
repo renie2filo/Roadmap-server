@@ -1,3 +1,66 @@
+const colors = [{
+        label: "dark_purple",
+        hex: "#5342AA"
+    },
+    {
+        label: "purple",
+        hex: "#8877D8"
+    },
+    {
+        label: "dark_blue",
+        hex: "#0052CC"
+    },
+    {
+        label: "blue",
+        hex: "#2784FF"
+    },
+    {
+        label: "dark_green",
+        hex: "#008759"
+    },
+    {
+        label: "green",
+        hex: "#58D9A3"
+    },
+    {
+        label: "dark_teal",
+        hex: "#06A3BF"
+    },
+    {
+        label: "teal",
+        hex: "#00C7E6"
+    },
+    {
+        label: "dark_yellow",
+        hex: "#FF991F"
+    },
+    {
+        label: "yellow",
+        hex: "#FFC400"
+    },
+    {
+        label: "dark_orange",
+        hex: "#DD350B"
+    },
+    {
+        label: "orange",
+        hex: "#FF7452"
+    },
+    {
+        label: "dark_grey",
+        hex: "#253858"
+    },
+    {
+        label: "grey",
+        hex: "#6C778C"
+    },
+]
+
+const getHexColor = (color) => {
+    const findColor = colors.find(c => c.label === color)
+    return findColor.hex
+}
+
 const postJiraAdditionalBody = (startAt) => {
     return {
         "maxResults": 100,
@@ -83,7 +146,7 @@ const getIssueData = (issue) => {
             "total": progress["total"] === 0 ? 0 : progress["total"] / 3600,
             "percent": progress["percent"] === 0 ? 0 : progress["percent"] * 100 / progress["progress"]
         },
-        "label_color": customfield_10017 ? customfield_10017 : null
+        "label_color": customfield_10017 ? getHexColor(customfield_10017) : null
     }
 }
 
