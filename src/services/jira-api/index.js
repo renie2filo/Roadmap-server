@@ -28,6 +28,28 @@ const basicAuth = {
     }
 }
 
+//* SIMULATE JIRA API
+router.get('/?query', async (req, res, next) => {
+    try {
+
+        const {
+            query
+        } = req.query
+
+        const response = await axios.get(`${process.env.JIRA_API_URL}/${query}`, {
+            ...basicAuth
+        })
+
+        const result = await response.data
+
+        res.send(result)
+
+    } catch (error) {
+        console.log(error);
+        next(error);
+    }
+})
+
 router.get('/:issue_id', async (req, res, next) => {
     try {
         const {
