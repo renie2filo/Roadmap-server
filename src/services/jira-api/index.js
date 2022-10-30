@@ -129,4 +129,25 @@ router.post('/get-filter', async (req, res, next) => {
     }
 })
 
+router.get('/jira-software/sprint/:id', async (req, res, next) => {
+    try {
+
+        const {
+            id
+        } = req.params
+
+        const response = await axios.get(`${process.env.JIRA_API_SOFTWARE_URL}/sprint/${id}`, {
+            ...basicAuth
+        })
+
+        const result = await response.data
+
+        res.send(result)
+
+    } catch (error) {
+        console.log(error)
+        next(error)
+    }
+})
+
 module.exports = router
