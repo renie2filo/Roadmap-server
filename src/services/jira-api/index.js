@@ -179,20 +179,10 @@ router.get('/jira-software/sprint/:id/issue', async (req, res, next) => {
             issues_data = await sequentialFetch(total, async (startAt) => {
                 const result = await handlerPostJira(startAt)
                 // return getIssueDataFromArray(result["issues"])
-                return result["issues"].map(issue => {
-                    return {
-                        "key": issue["key"],
-                        "time_tracking": issue["timetracking"]
-                    }
-                })
+                return result["issues"]
             })
         } else {
-            issues_data = issues.map(issue => {
-                return {
-                    "key": issue["key"],
-                    "time_tracking": issue["timetracking"]
-                }
-            })
+            issues_data = issues
         }
 
         // //* GET ONLY KEY ISSUES AND TIMETRACKING
