@@ -120,7 +120,8 @@ const getIssueData = (issue) => {
         created,
         duedate,
         resolutiondate,
-        customfield_10017
+        customfield_10017,
+        customfield_10021
     } = fields
     return {
         key,
@@ -146,7 +147,8 @@ const getIssueData = (issue) => {
             "total": progress["total"] === 0 ? 0 : progress["total"] / 3600,
             "percent": progress["percent"] === 0 ? 0 : progress["percent"] * 100 / progress["progress"]
         },
-        "label_color": customfield_10017 ? getHexColor(customfield_10017) : null
+        "label_color": customfield_10017 ? getHexColor(customfield_10017) : null,
+        "in_sprint": customfield_10021 || customfield_10021.length > 0 ? customfield_10021[customfield_10021.length - 1] : null
     }
 }
 
