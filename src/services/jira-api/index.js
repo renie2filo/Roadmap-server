@@ -182,7 +182,7 @@ router.get('/jira-software/sprint/:id/issue', async (req, res, next) => {
                 return result["issues"].map(issue => {
                     return {
                         "key": issue["key"],
-                        "time_tracking": issue["timeTracking"]
+                        "time_tracking": issue["timetracking"]
                     }
                 })
             })
@@ -190,7 +190,7 @@ router.get('/jira-software/sprint/:id/issue', async (req, res, next) => {
             issues_data = issues.map(issue => {
                 return {
                     "key": issue["key"],
-                    "time_tracking": issue["timeTracking"]
+                    "time_tracking": issue["timetracking"]
                 }
             })
         }
