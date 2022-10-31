@@ -78,7 +78,8 @@ const postJiraAdditionalBody = (startAt) => {
             "created",
             "duedate",
             "resolutiondate",
-            "customfield_10017"
+            "customfield_10017",
+            "customfield_10021"
         ]
     }
 }
