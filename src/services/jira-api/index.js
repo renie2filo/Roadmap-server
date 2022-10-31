@@ -156,13 +156,39 @@ router.get('/jira-software/sprint/:id/issue', async (req, res, next) => {
             id
         } = req.params
 
-        const response = await axios.get(`${process.env.JIRA_API_SOFTWARE_URL}/sprint/${id}/issue`, {
-            ...basicAuth
-        })
+        const handlerPostJira = async (startAt) => {
+            const response = await axios.get(`${process.env.JIRA_API_SOFTWARE_URL}/sprint/${id}/issue?maxResults=100&startAt=${startAt}`, {
+                ...basicAuth
+            });
 
-        const result = await response.data
+            const result = await response.data
 
-        res.send(result)
+            return result
+
+        }
+
+        //* FIRST FETCH
+        const {
+            total,
+            issues
+        } = await handlerPostJira(0)
+
+        let issues_data = []
+
+        if (total > 100) {
+            issues_data = await sequentialFetch(total, async (startAt) => {
+                const result = await handlerPostJira(startAt)
+                return getIssueDataFromArray(result["issues"])
+            })
+        } else issues_data = [...getIssueDataFromArray(issues)]
+
+        const final_result = {
+            "total": total,
+            "issues_data": issues_data,
+            "total_fetched": issues_data.length
+        }
+
+        res.send(final_result)
 
     } catch (error) {
         console.log(error)
