@@ -62,12 +62,11 @@ const getHexColor = (color) => {
 }
 
 const filterActiveSprint = (sprint_array) => {
-    const filtered = sprint_array.filter(sprint => sprint["state"] === "active")
-    return {
-        "id": filtered[0]["id"],
-        "name": filtered[0]["name"],
-        "state": filtered[0]["state"]
-    }
+    let filtered
+    if (sprint_array && sprint_array.length > 0) {
+        filtered = sprint_array.filter(sprint => sprint["state"] === "active")
+        return filtered[0]
+    } else return null
 }
 
 const postJiraAdditionalBody = (startAt) => {
