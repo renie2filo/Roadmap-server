@@ -130,7 +130,8 @@ const getIssueData = (issue) => {
         duedate,
         resolutiondate,
         customfield_10017,
-        customfield_10021
+        customfield_10021,
+        timetracking
     } = fields
     return {
         key,
@@ -157,7 +158,8 @@ const getIssueData = (issue) => {
             "percent": progress["percent"] === 0 ? 0 : progress["percent"] * 100 / progress["progress"]
         },
         "label_color": customfield_10017 ? getHexColor(customfield_10017) : null,
-        "in_sprint": customfield_10021 ? filterActiveSprint(customfield_10021) : null
+        "in_sprint": customfield_10021 ? filterActiveSprint(customfield_10021) : null,
+        "time_tracking": timetracking ? timetracking : null,
     }
 }
 
