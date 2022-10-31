@@ -61,6 +61,15 @@ const getHexColor = (color) => {
     return findColor.hex
 }
 
+const filterActiveSprint = (sprint_array) => {
+    const filtered = sprint_array.filter(sprint => sprint["state"] === "active")
+    return {
+        "id": filtered[0]["id"],
+        "name": filtered[0]["name"],
+        "state": filtered[0]["state"]
+    }
+}
+
 const postJiraAdditionalBody = (startAt) => {
     return {
         "maxResults": 100,
@@ -149,7 +158,7 @@ const getIssueData = (issue) => {
             "percent": progress["percent"] === 0 ? 0 : progress["percent"] * 100 / progress["progress"]
         },
         "label_color": customfield_10017 ? getHexColor(customfield_10017) : null,
-        "in_sprint": customfield_10021 ? customfield_10021[customfield_10021.length - 1] : null
+        "in_sprint": customfield_10021 ? filterActiveSprint(customfield_10021) : null
     }
 }
 
