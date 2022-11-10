@@ -2,7 +2,7 @@ const router = require('express').Router();
 
 router.get('/business-redirect', async (req, res, next) => {
     try {
-        res.send('<script>window.location.href="https://filotrack.com";</script>')
+        res.status(301).redirect("https://filotrack.com")
     } catch (error) {
         console.log(error);
         next(error);
