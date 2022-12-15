@@ -58,7 +58,7 @@ app.get('/:issue_id', async (req, res, next) => {
             }
         })
 
-        //? console.log("/jira-api/index.js line 26", response)
+        console.log("/jira-api/index.js line 26", response)
 
         const result = await response.data
 
