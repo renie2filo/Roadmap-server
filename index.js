@@ -10,9 +10,9 @@ const {
     forbidden,
     badRequest,
     generalError
-} = require('./errors/index.js')
+} = require('./src/errors/index.js')
 
-const main_router = require('./services/index.js')
+const main_router = require('./src/services/index.js')
 
 require('dotenv').config();
 
