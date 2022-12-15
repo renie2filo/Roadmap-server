@@ -56,3 +56,5 @@ console.log(listEndpoints(app))
 app.listen(PORT, () => {
     console.log('Listening at http://localhost:' + PORT)
 })
+
+module.exports = app
