@@ -42,6 +42,15 @@ app.use(function (req, res, next) {
     next();
 });
 
+app.get('/', async (req, res, next) => {
+    try {
+        res.send("Express")
+    } catch (error) {
+        console.log(error);
+        next(error)
+    }
+})
+
 app.use('/', main_router)
 
 //! ERRORS
