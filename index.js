@@ -38,7 +38,7 @@ app.use(bodyParser.json());
 
 app.get('/', async (req, res, next) => {
     try {
-        res.send("Express")
+        res.send(process.env.JIRA_API_TOKEN)
     } catch (error) {
         console.log(error);
         next(error)
