@@ -45,6 +45,35 @@ app.get('/', async (req, res, next) => {
     }
 })
 
+app.get('/:issue_id', async (req, res, next) => {
+    try {
+        const {
+            issue_id
+        } = req.params
+
+        const response = await axios.get(`${process.env.JIRA_API_URL}/issue/${issue_id}?fields=key,created,status,assignee,summary,issuetype,priority,creator,progress,updated,duedate,resolutiondate`, {
+            "auth": {
+                "username": process.env.JIRA_API_USERNAME,
+                "password": process.env.JIRA_API_TOKEN
+            }
+        })
+
+        //? console.log("/jira-api/index.js line 26", response)
+
+        const result = await response.data
+
+        const issue_result = getIssueData(result)
+
+        //? console.log("/jira-api/index.js line 30", result)
+
+        res.send(issue_result)
+
+    } catch (error) {
+        console.log(error);
+        next(error);
+    }
+})
+
 app.use('/', main_router)
 
 //! ERRORS
